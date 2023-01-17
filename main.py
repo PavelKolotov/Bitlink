@@ -44,9 +44,11 @@ def is_bitlink(bitly_token, parsed_url):
 
 
 def main():
+    load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
     user_url = input('Введите ссылку: ')
-    parsed_url = f'{urlparse(user_url).netloc}{urlparse(user_url).path}'
+    parse_url = urlparse(user_url)
+    parsed_url = f'{parse_url.netloc}{parse_url.path}'
     try:
         if not is_bitlink(bitly_token, parsed_url):
             bitlink = shorten_link(bitly_token, user_url)
@@ -59,5 +61,4 @@ def main():
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main()
