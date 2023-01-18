@@ -1,5 +1,7 @@
 import os
 import requests
+import argparse
+
 
 from dotenv import load_dotenv
 from urllib.parse import urljoin, urlparse
@@ -46,9 +48,13 @@ def is_bitlink(bitly_token, parsed_url):
 def main():
     load_dotenv()
     bitly_token = os.environ['BITLY_TOKEN']
-    user_url = input('Введите ссылку: ')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("user_url", help="Ваша ссылка")
+    args = parser.parse_args()
+    user_url =args.user_url
     url_parts = urlparse(user_url)
     parsed_url = f'{url_parts.netloc}{url_parts.path}'
+
     try:
         if not is_bitlink(bitly_token, parsed_url):
             bitlink = shorten_link(bitly_token, user_url)
